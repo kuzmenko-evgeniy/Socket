@@ -9,7 +9,6 @@ public class Server {
 
     public static void main(String[] args) {
 
-
         int portNumber = 9911;
 
         try {
@@ -22,9 +21,23 @@ public class Server {
 
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
+            String messageLine;
+
             while (true) {
-                out.println(stdIn.readLine());
-                System.out.println("> " + in.readLine());
+
+                if (stdIn.ready()) {
+                    messageLine = stdIn.readLine();
+
+                    if (messageLine.equals("stop_server")) {
+                        System.exit(0);
+                    }
+                    out.println(messageLine);
+                }
+
+                if (in.ready()) {
+                    System.out.println("--> " + in.readLine());
+                }
+
             }
 
         } catch (IOException e) {
